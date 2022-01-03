@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>Markdown12</title>
+      <link href="/2022/01/02/test/"/>
+      <url>/2022/01/02/test/</url>
+      
+        <content type="html"><![CDATA[<h3 id="Markdown语法（typora）"><a href="#Markdown语法（typora）" class="headerlink" title="Markdown语法（typora）"></a>Markdown语法（typora）</h3><h4 id="1-代码块："><a href="#1-代码块：" class="headerlink" title="1.代码块："></a>1.代码块：</h4><ul><li>例</li></ul><pre class="language-python" data-language="python"><code class="language-python">print(&quot;人生苦短，我用python&quot;)  tips:在代码块中并不能进行高亮、加粗等操作</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> markdown </tag>
+            
+            <tag> geada </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Markdown</title>
       <link href="/2022/01/02/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2/"/>
       <url>/2022/01/02/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2/</url>

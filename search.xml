@@ -4,11 +4,30 @@
   
     
     <entry>
+      <title>vscode远程推送文件至github</title>
+      <link href="/2022/01/03/vscode%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E8%87%B3github/"/>
+      <url>/2022/01/03/vscode%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E8%87%B3github/</url>
+      
+        <content type="html"><![CDATA[<p>1.在github上新建一个仓库</p><p>2.在本地用编辑器打开本地的文件夹</p><p>3.此时如需把文件夹中的文件推送至远程仓库，</p><pre class="language-python" data-language="python"><code class="language-python">git init                      #初始化一个本地仓库git add readme.txt            #将这一个文件上传至仓库#git add .                    #将所有文件上传至仓库git commit -m “first commit”  #first commit是备注 即第一次提交git branch -M maingit remote add origin https:&#x2F;&#x2F;github.com&#x2F;xxx&#x2F;xxx.git  #加仓库名git push -u origin main</code></pre><p>4.此时如果修改了文件 vscode左侧源代码管理会出现蓝色圆圈及其数字 表示文件已经更改，我们就需要将这个改变的文件先暂存本地仓库(源代码管理处文件的加号)再提交到本地仓库(<strong>此时会弹出输入框，输入备注回车</strong>) ，最后点击最左下角状态栏的循环箭头即可提交github更新更改</p><p><strong>注:如果非第一次创建只需执行第四步</strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 编程中遇到的问题 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Markdown</title>
       <link href="/2022/01/02/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2/"/>
       <url>/2022/01/02/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2/</url>
       
-        <content type="html"><![CDATA[<h3 id="Markdown语法（typora）"><a href="#Markdown语法（typora）" class="headerlink" title="Markdown语法（typora）"></a>Markdown语法（typora）</h3><h4 id="1-代码块："><a href="#1-代码块：" class="headerlink" title="1.代码块："></a>1.代码块：</h4><ul><li>例</li></ul><pre class="language-python" data-language="python"><code class="language-python">print(&quot;人生苦短，我用python&quot;)  tips:在代码块中并不能进行高亮、加粗等操作</code></pre><h4 id="2-标题"><a href="#2-标题" class="headerlink" title="2.标题"></a>2.标题</h4><ul><li>加内容即生成标题 几个#号则几号标题</li><li>记得#后需加空格</li></ul><h4 id="3-字体"><a href="#3-字体" class="headerlink" title="3.字体"></a>3.字体</h4><h5 id="3-1-加粗"><a href="#3-1-加粗" class="headerlink" title="3.1 加粗"></a>3.1 加粗</h5><h5 id="3-2-高亮"><a href="#3-2-高亮" class="headerlink" title="3.2 高亮"></a>3.2 高亮</h5><h5 id="3-3-删除线"><a href="#3-3-删除线" class="headerlink" title="3.3 删除线"></a>3.3 删除线</h5><h5 id="3-4-斜体"><a href="#3-4-斜体" class="headerlink" title="3.4 斜体"></a>3.4 斜体</h5><h4 id="4-引用"><a href="#4-引用" class="headerlink" title="4.引用"></a>4.引用</h4><ul><li>用快捷键即可</li></ul><h4 id="5-分割线"><a href="#5-分割线" class="headerlink" title="5.分割线"></a>5.分割线</h4><hr><h4 id="6-图片插入"><a href="#6-图片插入" class="headerlink" title="6.图片插入"></a>6.图片插入</h4><p><img src="https://images.unsplash.com/photo-1457305237443-44c3d5a30b89?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2074&amp;q=80" alt="图片"></p><h4 id="7-超链接"><a href="#7-超链接" class="headerlink" title="7.超链接"></a>7.超链接</h4><p><a href="www.baidu.com"></a></p><h4 id="8-列表"><a href="#8-列表" class="headerlink" title="8.列表"></a>8.列表</h4><ul><li>无序</li></ul><p>1.有序</p>]]></content>
+        <content type="html"><![CDATA[<h3 id="Markdown语法（typora）"><a href="#Markdown语法（typora）" class="headerlink" title="Markdown语法（typora）"></a>Markdown语法（typora）</h3><h4 id="1-代码块："><a href="#1-代码块：" class="headerlink" title="1.代码块："></a>1.代码块：</h4><ul><li>例</li></ul><pre class="language-python" data-language="python"><code class="language-python">print(&quot;人生苦短，我用python&quot;)  tips:在代码块中并不能进行高亮、加粗等操作</code></pre><h4 id="2-标题"><a href="#2-标题" class="headerlink" title="2.标题"></a>2.标题</h4><ul><li>加内容即生成标题 几个#号则几号标题</li><li>记得#后需加空格</li></ul><h4 id="3-字体"><a href="#3-字体" class="headerlink" title="3.字体"></a>3.字体</h4><h5 id="3-1-加粗"><a href="#3-1-加粗" class="headerlink" title="3.1 加粗"></a>3.1 加粗</h5><h5 id="3-2-高亮"><a href="#3-2-高亮" class="headerlink" title="3.2 高亮"></a>3.2 高亮</h5><h5 id="3-3-删除线"><a href="#3-3-删除线" class="headerlink" title="3.3 删除线"></a>3.3 删除线</h5><h5 id="3-4-斜体"><a href="#3-4-斜体" class="headerlink" title="3.4 斜体"></a>3.4 斜体</h5><h4 id="4-引用"><a href="#4-引用" class="headerlink" title="4.引用"></a>4.引用</h4><ul><li>用快捷键即可</li></ul><h4 id="5-分割线"><a href="#5-分割线" class="headerlink" title="5.分割线"></a>5.分割线</h4><hr><h4 id="6-图片插入"><a href="#6-图片插入" class="headerlink" title="6.图片插入"></a>6.图片插入</h4><p><img src="https://images.unsplash.com/photo-1457305237443-44c3d5a30b89?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=2074&amp;q=80" alt="图片"></p><h4 id="7-超链接"><a href="#7-超链接" class="headerlink" title="7.超链接"></a>7.超链接</h4><p><a href="www.baidu.com"></a></p><h4 id="8-列表"><a href="#8-列表" class="headerlink" title="8.列表"></a>8.列表</h4><ul><li>无序列表</li></ul><p>1.有序列表</p>]]></content>
       
       
       <categories>

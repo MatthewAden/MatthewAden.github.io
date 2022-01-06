@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>研后C语言复习回顾</title>
+      <link href="/2022/01/06/%E7%A0%94%E5%90%8EC%E8%AF%AD%E8%A8%80%E5%A4%8D%E4%B9%A0%E5%9B%9E%E9%A1%BE/"/>
+      <url>/2022/01/06/%E7%A0%94%E5%90%8EC%E8%AF%AD%E8%A8%80%E5%A4%8D%E4%B9%A0%E5%9B%9E%E9%A1%BE/</url>
+      
+        <content type="html"><![CDATA[<h4 id="1-关系运算"><a href="#1-关系运算" class="headerlink" title="1.关系运算"></a>1.关系运算</h4><ul><li>判断是否相等和不等的优先级比其他关系运算符优先级要低</li><li>关系运算符优先级比算术运算符低 比赋值运算符高</li><li>小tips：  &gt;= 表示的是大于或等于</li></ul><h4 id="2-判断语句"><a href="#2-判断语句" class="headerlink" title="2.判断语句"></a>2.判断语句</h4><ul><li>if </li><li>if else</li><li>嵌套if语句(可if里嵌套if或if else或if else if else)</li><li>switch语句   （看作是一种基于计算的跳转，计算控制表达式的值后，程序会跳转到相匹配的case,如果执行完分支后，没有遇到break会继续执行下一个分支，这一点尤为要注意）</li><li>switch的控制表达式必须要是整型</li><li>case(常量) 常量也可以是常量表达式 例如1+1</li></ul><h4 id="3-简单代码练习"><a href="#3-简单代码练习" class="headerlink" title="3.简单代码练习"></a>3.简单代码练习</h4><ul><li>小启示 尽量写单一出口的代码</li></ul><pre class="language-c" data-language="c"><code class="language-c">1.&#x2F;&#x2F; 英尺换算&#x2F;&#x2F; 思路：#include &lt;stdio.h&gt;int main()&#123;    int cm, foot, inch;    scanf(&quot;%d&quot;, &amp;cm);    foot &#x3D; cm &#x2F; 30.48; &#x2F;&#x2F;强制类型转换,会将结果由浮点数转换整数    inch &#x3D; (cm &#x2F; 30.48 - foot) * 12;    printf(&quot;%d %d&quot;, foot, inch);    return 0;&#125;2.&#x2F;&#x2F;然后是几点&#x2F;&#x2F;思路：输入一个时间 首先利用除法和取余得到时和分钟 其次加上流逝的分钟数 最后再用取余和除法转换成终止时间include &lt;stdio.h&gt;int main()&#123;    int begin_time, end_time, time;    scanf(&quot;%d %d&quot;, &amp;begin_time, &amp;time);    end_time &#x3D; begin_time &#x2F; 100 * 60 + begin_time % 100 + time;    printf(&quot;%d%d&quot;, end_time &#x2F; 60, end_time % 60);    return 0;&#125;3.&#x2F;&#x2F; 逆序的三位数且输入数字含有结尾0时输出不应带有前导的0，比如输入700，输出应为7&#x2F;&#x2F; 思路：利用取余、除法运算分离百十个位，同时利用判断语句实现除0要求#include &lt;stdio.h&gt;int main()&#123;    int number, i, j, k;    scanf(&quot;%d&quot;, &amp;number);    i &#x3D; number &#x2F; 100;      &#x2F;&#x2F;百位    j &#x3D; number % 100 &#x2F; 10; &#x2F;&#x2F;十位    k &#x3D; number % 100 % 10; &#x2F;&#x2F;个位    if (k &#x3D;&#x3D; 0 &amp; j &#x3D;&#x3D; 0)    &#123;        printf(&quot;%d&quot;, i);    &#125;    else if (k &#x3D;&#x3D; 0 &amp; j !&#x3D; 0)    &#123;        printf(&quot;%d%d&quot;, j, i);    &#125;    else    &#123;        printf(&quot;%d%d%d&quot;, k, j, i);    &#125;    return 0;&#125;4.&#x2F;&#x2F; 成绩转换#include &lt;stdio.h&gt;int main()&#123;    int score;    scanf(&quot;%d&quot;, &amp;score);    score &#x2F;&#x3D; 10;    switch (score)    &#123;    case 10:      &#x2F;&#x2F; switch执行完一条分支的语句后如不遇到break会继续顺序执行下一个分支    case 9:        printf(&quot;A\n&quot;);        break;    case 8:        printf(&quot;B\n&quot;);        break;    case 7:        printf(&quot;C\n&quot;);        break;    case 6:        printf(&quot;D\n&quot;);        break;    default:        printf(&quot;E\n&quot;);        break;    &#125;    return 0;&#125;</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> C/C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C/C++ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vscode远程推送文件至github</title>
       <link href="/2022/01/03/vscode%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E8%87%B3github/"/>
       <url>/2022/01/03/vscode%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E8%87%B3github/</url>

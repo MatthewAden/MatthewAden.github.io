@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>研后python复习回顾</title>
+      <link href="/2022/01/08/1.8/"/>
+      <url>/2022/01/08/1.8/</url>
+      
+        <content type="html"><![CDATA[<h3 id="1-函数的参数"><a href="#1-函数的参数" class="headerlink" title="1.函数的参数"></a>1.函数的参数</h3><h4 id="1-1-位置参数"><a href="#1-1-位置参数" class="headerlink" title="1.1 位置参数"></a>1.1 位置参数</h4><pre class="language-python" data-language="python"><code class="language-python">def power(x, n):     #此时x,n都是位置参数，调用函数时必须输入两个参数    s &#x3D; 1    while n &gt; 0:        n &#x3D; n - 1        s &#x3D; s * x    return s</code></pre><h4 id="1-2-默认参数"><a href="#1-2-默认参数" class="headerlink" title="1.2 默认参数"></a>1.2 默认参数</h4><pre class="language-python" data-language="python"><code class="language-python">def power(x, n&#x3D;2):  #n&#x3D;2相当于默认参数 此时我们可以只输入一个参数    s &#x3D; 1    while n &gt; 0:        n &#x3D; n - 1        s &#x3D; s * x    return s</code></pre><ul><li><p><strong>注:当函数有多个参数时，把变化大的参数放前面，变化小的参数放后面，变化小的参数就可以作为默认参数。</strong></p></li><li><p><strong>定义默认参数要牢记一点：默认参数必须指向不变对象！</strong></p></li></ul><pre class="language-python" data-language="python"><code class="language-python">#此时默认参数是列表 是可变参数,Python函数在定义的时候，默认参数L的值就被计算出来了，即[]，因为默认参数L也是一个变量，它指向对象[]，每次调用该函数，如果改变了L的内容，则下次调用时，默认参数的内容就变了，不再是函数定义时的[]了。def add_end(L&#x3D;[]):    L.append(&#39;END&#39;)    return Ladd_end()&gt;&gt;&gt;[&#39;END&#39;]   add_end()&gt;&gt;&gt;[&#39;END&#39;, &#39;END&#39;]#因此我们需要将默认参数改为不变对象 None为不变对象，现在，无论调用多少次，都不会有问题def add_end(L&#x3D;None):    if L is None:        L &#x3D; []    L.append(&#39;END&#39;)    return L</code></pre><h4 id="1-3-可变参数"><a href="#1-3-可变参数" class="headerlink" title="1.3 可变参数"></a>1.3 可变参数</h4><ul><li>可变参数就是传入的参数个数是可变的，可应用于参数个数不确定</li></ul><pre class="language-python" data-language="python"><code class="language-python"># *+参数名就是可变参数，参数numbers接收到的是一个tuple，调用该函数时，可以传入任意个参数，包括0个参数，此时这些参数会自动转换成一个元组def calc(*numbers):       sum &#x3D; 0    for n in numbers:        sum &#x3D; sum + n * n    return sumcalc(1, 2)&gt;&gt;&gt;5calc()&gt;&gt;&gt; 0</code></pre><p>如果已经有一个list或者tuple，要调用一个可变参数怎么办？可以这样做：</p><pre class="language-python" data-language="python"><code class="language-python">nums &#x3D; [1, 2, 3]calc(nums[0], nums[1], nums[2])14</code></pre><p>这种写法当然是可行的，但有更简单的写法，Python允许在list或tuple前面加一个<code>*</code>号，把list或tuple的元素变成<strong>可变参数</strong>传进去：</p><pre class="language-python" data-language="python"><code class="language-python">#*nums&#96;表示把&#96;nums&#96;这个list的所有元素作为可变参数传进去。nums &#x3D; [1, 2, 3]calc(*nums)14</code></pre><h4 id="1-4-关键字参数"><a href="#1-4-关键字参数" class="headerlink" title="1.4 关键字参数"></a>1.4 关键字参数</h4><ul><li>关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个<strong>dict</strong></li><li>类似可变参数 只是由可变参数的tuple变成了dict</li></ul><pre class="language-python" data-language="python"><code class="language-python">def person(name, age, **kw):    print(&#39;name:&#39;, name, &#39;age:&#39;, age, &#39;other:&#39;, kw)person(&#39;Michael&#39;, 30)name: Michael age: 30 other: &#123;&#125;</code></pre><h4 id="1-5-小结"><a href="#1-5-小结" class="headerlink" title="1.5 小结"></a>1.5 小结</h4><ul><li><p>默认参数一定要用不可变对象，如果是可变对象，程序运行时会有逻辑错误！</p></li><li><p>要注意定义可变参数和关键字参数的语法：</p></li><li><p><code>*args</code>是可变参数，args接收的是一个tuple；</p></li><li><p><code>**kw</code>是关键字参数，kw接收的是一个dict。</p></li><li><p>调用函数时如何传入可变参数和关键字参数的语法：</p></li><li><p>可变参数既可以直接传入：<code>func(1, 2, 3)</code>，又可以先组装list或tuple，再通过<code>*args</code>传入：<code>func(*(1, 2, 3))</code>；</p></li><li><p>关键字参数既可以直接传入：<code>func(a=1, b=2)</code>，又可以先组装dict，再通过<code>**kw</code>传入：<code>func(**&#123;&#39;a&#39;: 1, &#39;b&#39;: 2&#125;)</code>。</p></li><li><p>使用<code>*args</code>和<code>**kw</code>是Python的习惯写法，当然也可以用其他参数名，但最好使用习惯用法。</p></li></ul><h3 id="2-递归函数"><a href="#2-递归函数" class="headerlink" title="2.递归函数"></a>2.递归函数</h3><ul><li>典型例子 计算1到n的阶乘</li></ul><pre class="language-python" data-language="python"><code class="language-python">#递归计算1到n的阶乘def fac(n):    if n &#x3D;&#x3D; 1:        return n    return n * fac(n-1)    </code></pre><h3 id="3-切片"><a href="#3-切片" class="headerlink" title="3.切片"></a>3.切片</h3><ul><li><p>L[0:3]表示0开始取，直到索引3为止，但不包括索引3。即索引0，1，2，正好是3个元素。</p></li><li><p>L[-2:]表示从倒数第二个元素开始到最后</p></li><li>L[::5] 所有数，每5个取一个</li><li>tuple也可以用切片操作，只是操作的结果仍是tuple</li><li>字符串也可以用切片操作，只是操作结果仍是字符串</li></ul><h4 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h4><pre class="language-python" data-language="python"><code class="language-python">#利用切片操作，实现一个trim()函数，去除字符串首尾的空格，注意不要调用str的strip()方法：#法1  while循环def trim(s):    while s[:1] &#x3D;&#x3D; &quot; &quot;:        s &#x3D; s[1:]    while s[-1:] &#x3D;&#x3D; &quot; &quot;:        s &#x3D; s[0:-1]    return s #法二 递归def trim(s):    if s[0:1] &#x3D;&#x3D; &quot; &quot;:        return trim(s[1:])    elif s[-1:] &#x3D;&#x3D; &quot; &quot;:        return trim(s[0:-1])    else:        return s        </code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> python </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> python </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>研后C语言复习回顾</title>
       <link href="/2022/01/06/%E7%A0%94%E5%90%8EC%E8%AF%AD%E8%A8%80%E5%A4%8D%E4%B9%A0%E5%9B%9E%E9%A1%BE/"/>
       <url>/2022/01/06/%E7%A0%94%E5%90%8EC%E8%AF%AD%E8%A8%80%E5%A4%8D%E4%B9%A0%E5%9B%9E%E9%A1%BE/</url>

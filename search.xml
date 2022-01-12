@@ -4,7 +4,32 @@
   
     
     <entry>
-      <title>研后python复习回顾</title>
+      <title>研后Python复习回顾--数据分析篇</title>
+      <link href="/2022/01/08/1.12/"/>
+      <url>/2022/01/08/1.12/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> Python </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 数据分析 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>研后Python复习回顾--语法篇</title>
       <link href="/2022/01/08/1.8/"/>
       <url>/2022/01/08/1.8/</url>
       
@@ -13,14 +38,14 @@
       
       <categories>
           
-          <category> python </category>
+          <category> Python </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> python </tag>
+            <tag> Python </tag>
             
         </tags>
       

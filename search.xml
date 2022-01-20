@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>机器学习回顾篇--sklearn</title>
+      <link href="/2022/01/19/1.20/"/>
+      <url>/2022/01/19/1.20/</url>
+      
+        <content type="html"><![CDATA[<h2 id="调包、加载处理后的数据"><a href="#调包、加载处理后的数据" class="headerlink" title="调包、加载处理后的数据"></a>调包、加载处理后的数据</h2><pre class="language-python" data-language="python"><code class="language-python"># 调包、加载处理后的数据import pandas as pdimport numpy as npimport matplotlib.pyplot as pltimport seaborn as snsfrom IPython.display import Image%matplotlib inlineplt.rcParams[&#39;font.sans-serif&#39;] &#x3D; [&#39;SimHei&#39;]  # 用来正常显示中文标签plt.rcParams[&#39;axes.unicode_minus&#39;] &#x3D; False  # 用来正常显示负号plt.rcParams[&#39;figure.figsize&#39;] &#x3D; (10, 6)  # 设置输出图片大小data_1 &#x3D; pd.read_csv(&#39;train.csv&#39;)data_2 &#x3D; pd.read_csv(&#39;clear_data.csv&#39;)</code></pre><h2 id="模型搭建"><a href="#模型搭建" class="headerlink" title="模型搭建"></a>模型搭建</h2><ul><li>处理完前面的数据我们就得到建模数据，下一步是选择合适模型</li><li>在进行模型选择之前我们需要先知道数据集最终是进行<strong>监督学习</strong>还是<strong>无监督学习</strong></li><li>模型的选择一方面是通过我们的任务来决定的。</li><li>除了根据我们任务来选择模型外，还可以根据数据样本量以及特征的稀疏性来决定</li><li>刚开始我们总是先尝试使用一个基本的模型来作为其baseline，进而再训练其他模型做对比，最终选择泛化能力或性能比较好的模型</li></ul><p><img src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/281120453768566.png" alt="img"></p><h3 id="切割训练集和测试集"><a href="#切割训练集和测试集" class="headerlink" title="切割训练集和测试集"></a>切割训练集和测试集</h3><p>这里使用留出法划分数据集</p><ul><li>将数据集分为自变量和因变量</li><li>按比例切割训练集和测试集(一般测试集的比例有30%、25%、20%、15%和10%)</li><li>使用分层抽样</li><li>设置随机种子以便结果能复现</li><li>切割数据集是为了后续能评估模型泛化能力</li><li>sklearn中切割数据集的方法为<code>train_test_split</code></li><li>查看函数文档可以在jupyter noteboo里面使用<code>train_test_split?</code>后回车即可看到</li><li>分层和随机种子在参数里寻找</li></ul><h4 id="分层抽样的概念"><a href="#分层抽样的概念" class="headerlink" title="分层抽样的概念"></a>分层抽样的概念</h4><p>抽样时，将总体分成互不交叉的层，然后按照一定的比例，从各层独立地抽取一定数量的个体，将各层取出的个体合在一起作为样本，这种抽样方法叫分层抽样。</p><p>有几个关键要点</p><ul><li>总体个体差异明显，每层的差异比较大，层内个体间的差异比较小</li><li><strong>每层可以抽取多少样本</strong>，常见的有以下这些方案</li><li>如果根据它在总体中占的比例来抽取，就是等比例抽样</li><li><strong>也可以对不同的层赋予不同的权重，手动控制各层的抽样规模。</strong></li><li>对每一层都分配同样的个体数</li><li>各层抽得的样本数与所抽得的总样本数之比等于该层方差与各类方差之和的比</li><li>每层抽取样本时，采用简单随机抽样</li></ul><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ol><li>如果层内的具有较低的标准偏差（与总体中的总体标准偏差相比），则分层会产生较小的估计误差。</li><li>对于许多应用，当人口被分组到层中时，测量变得更易于管理。</li><li>分层抽样特别适用于<strong>既要对总体参数进行推断</strong>，<strong>也要对各子总体(层)的参数进行推断</strong>的情形</li></ol><pre class="language-python" data-language="python"><code class="language-python">from sklearn.model_selection import train_test_splitx &#x3D; data_2y &#x3D; data_1[&#39;Survived&#39;]# 对数据集进行切割,stratify&#x3D;y是保证测试集与训练集的数据分类比例与y一致，例如y中男女比例是2比1，则取出的测试集与训练集的数据男女比例也是2比1X_train, X_test, y_train, y_test &#x3D; train_test_split(x,y,stratify&#x3D;y,random_state&#x3D;0)</code></pre><h3 id="模型创建"><a href="#模型创建" class="headerlink" title="模型创建"></a>模型创建</h3><ul><li>创建基于线性模型的分类模型（逻辑回归）</li><li>创建基于树的分类模型（决策树、随机森林）</li><li>分别使用这些模型进行训练，分别的到训练集和测试集的得分</li><li><p>查看模型的参数，并更改参数值，观察模型变化</p></li><li><p>逻辑回归不是回归模型而是分类模型，不要与<code>LinearRegression</code>混淆</p></li><li>随机森林其实是决策树集成为了降低决策树过拟合的情况</li><li>线性模型所在的模块为<code>sklearn.linear_model</code></li><li>树模型所在的模块为<code>sklearn.ensemble</code></li></ul><pre class="language-python" data-language="python"><code class="language-python">from sklearn.linear_model import LogisticRegressionfrom sklearn.ensemble import RandomForestClassifier#默认参数的逻辑回归lr &#x3D; LogisticRegression()lr.fit(X_train, y_train)# 查看训练集和测试集score值print(&quot;Training set score: &#123;:.2f&#125;&quot;.format(lr.score(X_train, y_train)))print(&quot;Testing set score: &#123;:.2f&#125;&quot;.format(lr.score(X_test, y_test)))# 调整参数后的逻辑回归模型lr2 &#x3D; LogisticRegression(C&#x3D;100)lr2.fit(X_train, y_train)print(&quot;Training set score: &#123;:.2f&#125;&quot;.format(lr2.score(X_train, y_train)))print(&quot;Testing set score: &#123;:.2f&#125;&quot;.format(lr2.score(X_test, y_test)))# 默认参数的随机森林分类模型rfc &#x3D; RandomForestClassifier()rfc.fit(X_train, y_train)print(&quot;Training set score: &#123;:.2f&#125;&quot;.format(rfc.score(X_train, y_train)))print(&quot;Testing set score: &#123;:.2f&#125;&quot;.format(rfc.score(X_test, y_test)))# 调整参数后的随机森林分类模型rfc2 &#x3D; RandomForestClassifier(n_estimators&#x3D;100, max_depth&#x3D;5)rfc2.fit(X_train, y_train)print(&quot;Training set score: &#123;:.2f&#125;&quot;.format(rfc2.score(X_train, y_train)))print(&quot;Testing set score: &#123;:.2f&#125;&quot;.format(rfc2.score(X_test, y_test)))</code></pre><h3 id="输出模型预测结果"><a href="#输出模型预测结果" class="headerlink" title="输出模型预测结果"></a>输出模型预测结果</h3><ul><li>输出模型预测分类标签</li><li><p>输出不同分类标签的预测概率</p></li><li><p>一般监督模型在sklearn里面有个<code>predict</code>能输出预测标签，<code>predict_proba</code>则可以输出标签概率</p></li></ul><pre class="language-python" data-language="python"><code class="language-python">pred &#x3D; lr.predict(X_train)# 此时我们可以看到0和1的数组pred[:10]# 预测标签概率pred_proba &#x3D; lr.predict_proba(X_train)pred_proba[:10]</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>研后Python复习回顾--数据分析篇</title>
       <link href="/2022/01/13/1.13/"/>
       <url>/2022/01/13/1.13/</url>

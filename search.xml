@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>vscode调试带有scanf函数无法输入</title>
+      <link href="/2022/01/26/1.26/"/>
+      <url>/2022/01/26/1.26/</url>
+      
+        <content type="html"><![CDATA[<ul><li>断点应设在scanf下面的语句</li></ul><p><img src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/image-20220126131757527.png" alt=""></p><ul><li>externaIConsole改为true</li></ul><p><img src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/image-20220126132130359.png" alt=""></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 编程中遇到的问题 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>统计学习方法第一章(1)</title>
       <link href="/2022/01/23/1.23/"/>
       <url>/2022/01/23/1.23/</url>
@@ -13,7 +32,9 @@
       
       <categories>
           
-          <category> -机器学习 -李航统计学习方法 </category>
+          <category> 机器学习 </category>
+          
+          <category> 李航统计学习方法 </category>
           
       </categories>
       
@@ -38,14 +59,14 @@
       
       <categories>
           
-          <category> -机器学习 </category>
+          <category> 机器学习 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> -机器学习 </tag>
+            <tag> 机器学习 </tag>
             
         </tags>
       

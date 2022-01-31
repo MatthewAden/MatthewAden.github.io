@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>朴素贝叶斯小结</title>
+      <link href="/2022/01/30/1.30/"/>
+      <url>/2022/01/30/1.30/</url>
+      
+        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>   贝叶斯学派很古老，但是从诞生到一百年前一直不是主流。主流是频率学派。频率学派的权威皮尔逊和费歇尔都对贝叶斯学派不屑一顾，但是贝叶斯学派硬是凭借在现代特定领域的出色应用表现为自己赢得了半壁江山。</p><p>  贝叶斯学派的思想可以概括为先验概率+数据=后验概率。也就是说我们在实际问题中需要得到的后验概率，可以通过先验概率和数据一起综合得到。数据大家好理解，被频率学派攻击的是先验概率，一般来说先验概率就是我们对于数据所在领域的历史经验，但是这个经验常常难以量化或者模型化，于是贝叶斯学派大胆的假设先验分布的模型，比如正态分布，beta分布等。这个假设一般没有特定的依据，因此一直被频率学派认为很荒谬。虽然难以从严密的数学逻辑里推出贝叶斯学派的逻辑，但是在很多实际应用中，贝叶斯理论很好用，比如垃圾邮件分类，文本分类。</p><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>朴素贝叶斯是基于<strong>贝叶斯定理</strong>与<strong>特征条件独立假设</strong>的<strong>分类</strong>方法</p><ul><li>属于生成方法——-与<strong>判别方法</strong>直接学习出特征输出Y和特征X之间的关系,即学习<strong>决策函数Y=f(X)</strong>要么是<strong>条件分布P(Y|X)</strong>。朴素贝叶斯却是生成方法，也就是直接找出特征输出Y和特征X的<strong>联合分布P(X,Y)</strong>,<strong>P(X,Y)=P(X|Y)*P(Y</strong>),然后用<strong>P(Y|X)=P(X,Y)/P(X)</strong>得出。</li><li>特征条件独立假设是贝叶斯定理中的一个大胆假设，即假设输入中特征条件相互独立，优点是极大减少计算量，缺点是可能会造成预测的不准确性</li><li>分类的原则是依据贝叶斯定理求出的<strong>后验概率P(Y|X)</strong>，即选择<strong>后验概率最大</strong>的作为预测的类别结果</li><li></li></ul><h2 id="推断过程"><a href="#推断过程" class="headerlink" title="推断过程"></a>推断过程</h2><p>我们预测的类别C~result~是使P(Y=C~k~|X=X^(test)^)最大化的类别，数学表达式为：</p><script type="math/tex; mode=display">\begin{aligned}C_{\text {result }} &=\underbrace{\operatorname{argmax}}_{C_{k}} P\left(Y=C_{k} \mid X=X^{(\text {test })}\right) \\&=\underbrace{\operatorname{argmax}}_{C_{k}} P\left(X=X^{(\text {test })} \mid Y=C_{k}\right) P\left(Y=C_{k}\right) / P\left(X=X^{(\text {test })}\right)\end{aligned}</script><p>由于对于所有分类分母是一样的，加上独立性假设，则公式可简化为</p><script type="math/tex; mode=display">C_{\text {result }}=\underbrace{\operatorname{argmax}}_{C_{k}} P\left(Y=C_{k}\right) \prod_{j=1}^{n} P\left(X_{j}=X_{j}^{(t e s t)} \mid Y=C_{k}\right)</script><hr><p>某些时候，可能<strong>某些类别在样本中没有出现</strong>，这样可能导致P(X~j~=X^test)^|Y=C~k~)为0，这样会影响后验的估计，为了解决这种情况，我们引入了拉普拉斯平滑，即此时有：</p><script type="math/tex; mode=display">P_{\lambda}\left(Y=c_{k}\right)=\frac{\sum_{i=1}^{N} I\left(y_{i}=c_{k}\right)+\lambda}{N+K \lambda}</script><script type="math/tex; mode=display">P_{\lambda}\left(X^{(j)}=a_{j l} \mid Y=c_{k}\right)=\frac{\sum_{i=1}^{N} I\left(x_{i}^{(j)}=a_{j l}, y_{i}=c_{k}\right)+\lambda}{\sum_{i=1}^{N} I\left(y_{i}=c_{k}\right)+S_{j} \lambda}</script><p>其中λ为一个大于0的常数,常常取为1,<strong>K的取值与类别个数相同</strong>，<strong>S的取值与特征个数相同</strong>（<strong>注意区分特征个数与一个特征中可能有多个分量，比如天气属于一个特征，但天气包含下雨晴天等</strong>）</p><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p><img src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/uTools_1643634908564.png" alt="例"></p><p><img src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/image-20220131211410597.png" style="zoom: 25%;" /></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+          <category> 李航统计学习方法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vscode调试带有scanf函数无法输入</title>
       <link href="/2022/01/26/1.26/"/>
       <url>/2022/01/26/1.26/</url>

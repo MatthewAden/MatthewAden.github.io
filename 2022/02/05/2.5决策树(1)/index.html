@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>决策树(1) | Shihao Hu的博客</title><meta name="keywords" content="机器学习"><meta name="author" content="Hu"><meta name="copyright" content="Hu"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="决策树小结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="决策树(1)">
+<meta property="og:url" content="https://matthewaden.github.io/2022/02/05/2.5%E5%86%B3%E7%AD%96%E6%A0%91(1)/index.html">
+<meta property="og:site_name" content="Shihao Hu的博客">
+<meta property="og:description" content="决策树小结">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2022-02-05T14:37:00.000Z">
+<meta property="article:modified_time" content="2022-02-07T04:58:09.799Z">
+<meta property="article:author" content="Hu">
+<meta property="article:tag" content="机器学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://matthewaden.github.io/2022/02/05/2.5%E5%86%B3%E7%AD%96%E6%A0%91(1)/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '决策树(1)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-02-07 12:58:09'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/1.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Shihao Hu的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">决策树(1)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-05T14:37:00.000Z" title="发表于 2022-02-05 22:37:00">2022-02-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-07T04:58:09.799Z" title="更新于 2022-02-07 12:58:09">2022-02-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9D%8E%E8%88%AA%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/">李航统计学习方法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="决策树概述"><a href="#决策树概述" class="headerlink" title="决策树概述"></a>决策树概述</h2><ul>
+<li><p>是一种用于<strong>分类</strong>和<strong>回归</strong>的方法</p>
+</li>
+<li><p>通常包含三个步骤：<strong>特征选择</strong>、<strong>决策树生成</strong>和<strong>决策树修剪</strong></p>
+</li>
+</ul>
+<p>Q1.分类和回归的区别？</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">分类</th>
+<th style="text-align:center">回归</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">输出类型</td>
+<td style="text-align:center">离散数据</td>
+<td style="text-align:center">连续数据</td>
+</tr>
+<tr>
+<td style="text-align:center">评估指标</td>
+<td style="text-align:center">监督分类一般<strong>使用正确率</strong>作为指标</td>
+<td style="text-align:center"><strong>决定系数R方</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="决策树算法"><a href="#决策树算法" class="headerlink" title="决策树算法"></a>决策树算法</h2><ul>
+<li>通常包括三种算法ID3，C4.5，CART，在<strong>sklearn中采用优化了的CART</strong>算法来作为决策树实现</li>
+</ul>
+<h3 id="1-ID3算法："><a href="#1-ID3算法：" class="headerlink" title="1.ID3算法："></a>1.<strong>ID3算法</strong>：</h3><p>  作为一个码农经常会不停的敲if, else if, else,其实就已经在用到决策树的思想了。有这么多条件，用哪个条件特征先做if，哪个条件特征后做if比较优呢？怎么准确的定量选择这个标准就是决策树机器学习算法的关键了。昆兰找到了用<strong>信息论中的熵</strong>来度量决策树的决策选择过程，这个算法叫做ID3。</p>
+<p><strong>信息论中熵的概念：</strong>熵度量了事物的<strong>不确定性</strong>，越不确定的事物，它的熵就越大。具体的，随机变量X的熵的表达式如下：</p>
+<script type="math/tex; mode=display">
+H\left( X \right) =-\underset{i=1}{\overset{n}{\varSigma}}p_i\log p_i</script><p>  其中n代表X的n种不同的离散取值。而$$<br>p_i</p>
+<script type="math/tex; mode=display">代表了X取值为i的概率，log为以2或者e为底的对数。举个例子，比如X有2个可能的取值，而这两个取值各为1/2时X的熵最大，此时X具有最大的不确定性。值为。</script><p>H\left( X \right) =-\left( \frac{1}{2}\log \frac{1}{2}+\frac{1}{2}\log \frac{1}{2} \right) </p>
+<script type="math/tex; mode=display">，如果一个值概率大于1/2，另一个值概率小于1/2，则不确定性减少，对应的熵也会减少。又可以得到条件熵的表达式H(X|Y)，条件熵类似于条件概率,它度量了我们的X在知道Y以后剩下的不确定性。表达式如下：</script><p>H\left( X|Y \right) =\underset{j=1}{\overset{n}{\varSigma}}p\left( y_j \right) H\left( X|y_j \right)</p>
+<script type="math/tex; mode=display">
+  我们刚才提到H(X)度量了X的不确定性，条件熵H(X|Y)度量了我们在知道Y以后X剩下的不确定性，那么H(X)-H(X|Y)呢？从上面的描述大家可以看出，它度量了X在知道Y以后不确定性减少程度，这个度量在信息论中称为互信息，记为I(X,Y)。在决策树ID3算法中叫做信息增益。ID3算法就是用信息增益来判断当前节点应该用什么特征来构建决策树。**信息增益大，则越适合用来分类。**
+
+
+
+### 2.**算法步骤：**
+
+  上面提到ID3算法就是用信息增益大小来判断当前节点应该用什么特征来构建决策树，用计算出的信息增益最大的特征来建立决策树的当前节点。这里我们举一个信息增益计算的具体的例子。比如我们有15个样本D，输出为0或者1。其中有9个输出为1， 6个输出为0。 样本中有个特征A，取值为A1，A2和A3。在取值为A1的样本的输出中，有3个输出为1， 2个输出为0，取值为A2的样本输出中,2个输出为1,3个输出为0， 在取值为A3的样本中，4个输出为1，1个输出为0，样本D在特征下的条件熵为：</script><p>H\left( D|A \right) =\frac{5}{15}H\left( D1 \right) +\frac{5}{15}H\left( D2 \right) +\frac{5}{15}H\left( D3 \right)</p>
+<p>$$</p>
+<p>对应的信息增益为 I(D,A)=H(D)−H(D|A)=0.083I(D,A)=H(D)−H(D|A)=0.083　　　　　　　　　　　　</p>
+<p><strong>下面我们看看具体算法过程大概是怎么样的。</strong></p>
+<p>输入的是m个样本，样本输出集合为D，每个样本有n个离散特征，特征集合即为A，输出为决策树T。</p>
+<p>算法的过程为：</p>
+<p>　　　　1)初始化信息增益的阈值ϵ</p>
+<p>　　　　2）判断样本是否为同一类输出DiDi，如果是则返回单节点树T。标记类别为Di</p>
+<p>   　　　　3) 判断特征是否为空，如果是则返回单节点树T，标记类别为样本中输出类别D实例数最多的类别</p>
+<p>　　　　4）计算A中的各个特征（一共n个）对输出D的信息增益，选择信息增益最大的特征Ag</p>
+<p>   　　　　5) 如果AgAg的信息增益小于阈值ϵ，则返回单节点树T，标记类别为样本中输出类别D实例数最多的类别</p>
+<p>　　　　6）否则，按特征Ag的不同取值Agi将对应的样本输出D分成不同的类别Di。每个类别产生一个子节点。对应特征值为Agi，返回增加了节点的数T</p>
+<p>　　　　7）对于所有的子节点，令D=Di,A=A−{Ag}递归调用2-6步，得到子树Ti并返回</p>
+<h3 id="3-算法缺陷"><a href="#3-算法缺陷" class="headerlink" title="3.算法缺陷"></a>3.算法缺陷</h3><p>  ID3算法虽然提出了新思路，但是还是有很多值得改进的地方。　　</p>
+<p>   　　　　1. ID3没有考虑连续特征，比如长度，密度都是连续值，无法在ID3运用。这大大限制了ID3的用途。<br>   　　　　2. ID3采用信息增益大的特征优先建立决策树的节点。很快就被人发现，在相同条件下，取值比较多的特征比取值少的特征信息增大。比如一个变量有2个值，各为1/2，另一个变量为3个值，各为1/3，其实他们都是完全不确定的变量，但是取3个值的比取2个值的信息增益大。<br>   　　　　3. ID3算法对于缺失值的情况没有做考虑。</p>
+<ol>
+<li>没有考虑过拟合的问题。</li>
+</ol>
+<p>基于上述不足，对ID3算法做了改进，这就是C4.5算法</p>
+<h3 id="4-算法改进-C4-5算法"><a href="#4-算法改进-C4-5算法" class="headerlink" title="4.算法改进(C4.5算法)"></a>4.算法改进(C4.5算法)</h3><p>  对于第一个问题，不能处理连续特征， C4.5的思路是将连续的特征离散化。比如m个样本的连续特征A有m个，从小到大排列为a1,a2,…,am,则C4.5取相邻两样本值的平均数，一共取得m-1个划分点，其中第i个划分点Ti表示Ti表示Ti=ai+ai+12Ti=ai+ai+12。对于这m-1个点，分别计算以该点作为二元分类点时的信息增益。选择信息增益最大的点作为该连续特征的二元离散分类点。比如取到的增益最大的点为atat,则小于atat的值为类别1，大于atat的值为类别2，这样我们就做到了连续特征的离散化。要注意的是，与离散属性不同的是，如果当前节点为连续属性，则该属性后面还可以参与子节点的产生选择过程。</p>
+<p>  对于第二个问题，信息增益作为标准容易偏向于取值较多的特征的问题。我们引入一个信息增益比的变量IR(X,Y)IR(X,Y)，它是信息增益和特征熵的比值。</p>
+<p>  对于第三个缺失值处理的问题，主要需要解决的是两个问题，一是在样本某些特征缺失的情况下选择划分的属性，二是选定了划分属性，对于在该属性上缺失特征的样本的处理。</p>
+<p>  对于第一个子问题，对于某一个有缺失特征值的特征A。C4.5的思路是将数据分成两部分，对每个样本设置一个权重（初始可以都为1），然后划分数据，一部分是有特征值A的数据D1，另一部分是没有特征A的数据D2. 然后对于没有缺失特征A的数据集D1来和对应的A特征的各个特征值一起计算加权重后的信息增益比，最后乘上一个系数，这个系数是无特征A缺失的样本加权后所占加权总样本的比例。</p>
+<p>  对于第二个子问题，可以将缺失特征的样本同时划分入所有的子节点，不过将该样本的权重按各个子节点样本的数量比例来分配。比如缺失特征A的样本a之前权重为1，特征A有3个特征值A1,A2,A3。 3个特征值对应的无缺失A特征的样本个数为2,3,4.则a同时划分入A1，A2，A3。对应权重调节为2/9,3/9, 4/9。</p>
+<p>对于第4个问题，C4.5引入了正则化系数进行初步的剪枝。</p>
+<p>除了上面的4点，C4.5和ID的思路区别不大。</p>
+<p>　　　　</p>
+<h3 id="5-决策树C4-5算法的不足与思考"><a href="#5-决策树C4-5算法的不足与思考" class="headerlink" title="5. 决策树C4.5算法的不足与思考"></a>5. 决策树C4.5算法的不足与思考</h3><p>C4.5虽然改进或者改善了ID3算法的几个主要的问题，仍然有优化的空间。</p>
+<p>　　　　1.由于决策树算法非常容易过拟合，因此对于生成的决策树必须要进行剪枝。剪枝的算法有非常多，C4.5的剪枝方法有优化的空间。思路主要是两种，一种是预剪枝，即在生成决策树的时候就决定是否剪枝。另一个是后剪枝，即先生成决策树，再通过交叉验证来剪枝。后面在下篇讲CART树的时候我们会专门讲决策树的减枝思路，主要采用的是后剪枝加上交叉验证选择最合适的决策树。</p>
+<p>　　　　2.C4.5生成的是多叉树，即一个父节点可以有多个节点。很多时候，在计算机中二叉树模型会比多叉树运算效率高。如果采用二叉树，可以提高效率。</p>
+<p>　　　　3.C4.5只能用于分类，如果能将决策树用于回归的话可以扩大它的使用范围。</p>
+<p>　　　　4.C4.5由于使用了熵模型，里面有大量的耗时的对数运算,如果是连续值还有大量的排序运算。如果能够加以模型简化可以减少运算强度但又不牺牲太多准确性的话，那就更好了。</p>
+<p> 　这4个问题在CART树里面部分加以了改进。所以目前如果不考虑集成学习话，在普通的决策树算法里，CART算法算是比较优的算法了。<strong>scikit-learn的决策树使用的也是CART算法。</strong></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/02/07/2.7%E5%86%B3%E7%AD%96%E6%A0%91(2)/"><img class="prev-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">决策树(2)</div></div></a></div><div class="next-post pull-right"><a href="/2022/02/01/1.31/"><img class="next-cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">已安装某个包vscode无法调用</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/01/19/1.20/" title="机器学习回顾篇--sklearn"><img class="cover" src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/281120453768566.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-19</div><div class="title">机器学习回顾篇--sklearn</div></div></a></div><div><a href="/2022/01/23/1.23/" title="统计学习方法第一章(1)"><img class="cover" src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/3174.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-23</div><div class="title">统计学习方法第一章(1)</div></div></a></div><div><a href="/2022/01/30/1.30/" title="朴素贝叶斯小结"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-30</div><div class="title">朴素贝叶斯小结</div></div></a></div><div><a href="/2022/02/07/2.7%E5%86%B3%E7%AD%96%E6%A0%91(2)/" title="决策树(2)"><img class="cover" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-07</div><div class="title">决策树(2)</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/1.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hu</div><div class="author-info__description">一名热爱编程且对世界充满好奇的大四学生</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:1210034840@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">欢迎来到我的blog!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">决策树概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E7%AE%97%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">决策树算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-ID3%E7%AE%97%E6%B3%95%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">1.ID3算法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%AE%97%E6%B3%95%E7%BC%BA%E9%99%B7"><span class="toc-number">2.2.</span> <span class="toc-text">3.算法缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%AE%97%E6%B3%95%E6%94%B9%E8%BF%9B-C4-5%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.</span> <span class="toc-text">4.算法改进(C4.5算法)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%86%B3%E7%AD%96%E6%A0%91C4-5%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%8D%E8%B6%B3%E4%B8%8E%E6%80%9D%E8%80%83"><span class="toc-number">2.4.</span> <span class="toc-text">5. 决策树C4.5算法的不足与思考</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/02/07/2.7%E5%86%B3%E7%AD%96%E6%A0%91(2)/" title="决策树(2)"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="决策树(2)"/></a><div class="content"><a class="title" href="/2022/02/07/2.7%E5%86%B3%E7%AD%96%E6%A0%91(2)/" title="决策树(2)">决策树(2)</a><time datetime="2022-02-07T14:37:00.000Z" title="发表于 2022-02-07 22:37:00">2022-02-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/05/2.5%E5%86%B3%E7%AD%96%E6%A0%91(1)/" title="决策树(1)"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="决策树(1)"/></a><div class="content"><a class="title" href="/2022/02/05/2.5%E5%86%B3%E7%AD%96%E6%A0%91(1)/" title="决策树(1)">决策树(1)</a><time datetime="2022-02-05T14:37:00.000Z" title="发表于 2022-02-05 22:37:00">2022-02-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/02/01/1.31/" title="已安装某个包vscode无法调用"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="已安装某个包vscode无法调用"/></a><div class="content"><a class="title" href="/2022/02/01/1.31/" title="已安装某个包vscode无法调用">已安装某个包vscode无法调用</a><time datetime="2022-02-01T14:37:00.000Z" title="发表于 2022-02-01 22:37:00">2022-02-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/30/1.30/" title="朴素贝叶斯小结"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="朴素贝叶斯小结"/></a><div class="content"><a class="title" href="/2022/01/30/1.30/" title="朴素贝叶斯小结">朴素贝叶斯小结</a><time datetime="2022-01-30T14:37:00.000Z" title="发表于 2022-01-30 22:37:00">2022-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/26/1.26/" title="vscode调试带有scanf函数无法输入"><img src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/2819.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vscode调试带有scanf函数无法输入"/></a><div class="content"><a class="title" href="/2022/01/26/1.26/" title="vscode调试带有scanf函数无法输入">vscode调试带有scanf函数无法输入</a><time datetime="2022-01-26T14:37:00.000Z" title="发表于 2022-01-26 22:37:00">2022-01-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Hu</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script><script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"></script></div></body></html>

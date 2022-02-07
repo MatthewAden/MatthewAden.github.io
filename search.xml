@@ -4,6 +4,60 @@
   
     
     <entry>
+      <title>决策树(2)</title>
+      <link href="/2022/02/07/2.7%E5%86%B3%E7%AD%96%E6%A0%91(2)/"/>
+      <url>/2022/02/07/2.7%E5%86%B3%E7%AD%96%E6%A0%91(2)/</url>
+      
+        <content type="html"><![CDATA[<h2 id="决策树算法-CART算法"><a href="#决策树算法-CART算法" class="headerlink" title="决策树算法(CART算法)"></a>决策树算法(CART算法)</h2><p>对于C4.5算法，我们也提到了它的不足，比如模型是用较为复杂的熵来度量，使用了相对较为复杂的多叉树，只能处理分类不能处理回归等。对于这些问题， CART算法大部分做了改进。CART算法也就是我们下面的重点了。由于CART算法可以做回归，也可以做分类，我们分别加以介绍，先从CART分类树算法开始，重点比较和C4.5算法的不同点。接着介绍CART回归树算法，重点介绍和CART分类树的不同点。然后我们讨论CART树的建树算法和剪枝算法，最后总结决策树算法的优缺点。</p><h3 id="1-CART分类树算法的最优特征选择方法"><a href="#1-CART分类树算法的最优特征选择方法" class="headerlink" title="1.CART分类树算法的最优特征选择方法"></a>1.CART分类树算法的最优特征选择方法</h3><p>在<strong>ID3算法</strong>中我们使用了<strong>信息增益</strong>来选择特征，信息增益大的优先选择。在<strong>C4.5算法</strong>中，采用了<strong>信息增益比</strong>来选择特征，以减少信息增益容易选择特征值多的特征的问题。但是无论是ID3还是C4.5,都是基于信息论的熵模型的，这里面会涉及大量的对数运算。能不能简化模型同时也不至于完全丢失熵模型的优点呢？有！<strong>CART分类树算法使用基尼系数</strong>来代替信息增益比，基尼系数代表了模型的不纯度，基尼系数越小，则不纯度越低，特征越好。这和信息增益(比)是相反的。</p><h3 id="2-CART分类树算法对于连续特征和离散特征处理的改进"><a href="#2-CART分类树算法对于连续特征和离散特征处理的改进" class="headerlink" title="2. CART分类树算法对于连续特征和离散特征处理的改进"></a>2. CART分类树算法对于连续特征和离散特征处理的改进</h3><p>  对于CART分类树连续值的处理问题，其思想和C4.5是相同的，都是将连续的特征离散化。唯一的区别在于在选择划分点时的度量方式不同，C4.5使用的是<strong>信息增益比</strong>，则CART分类树使用的是<strong>基尼系数</strong>。</p><p>  具体的思路如下，比如m个样本的连续特征A有m个，从小到大排列为a1,a2,…,am,则CART算法取相邻两样本值的平均数，一共取得m-1个划分点，其中第i个划分点Ti，对于这m-1个点，分别计算以该点作为二元分类点时的基尼系数。选择基尼系数最小的点作为该连续特征的二元离散分类点。比如取到的基尼系数最小的点为at,则小于at的值为类别1，大于at的值为类别2，这样我们就做到了连续特征的离散化。要注意的是，与ID3或者C4.5处理离散属性不同的是，如果当前节点为连续属性，则该属性后面还可以参与子节点的产生选择过程。</p><p>  对于CART分类树离散值的处理问题，采用的思路是不停的<strong>二分离散特征</strong>。回忆下ID3或者C4.5，如果某个特征A被选取建立决策树节点，如果它有A1,A2,A3三种类别，我们会在决策树上一下建立一个三叉的节点。这样导致<strong>决策树是多叉树</strong>。但是CART分类树使用的方法不同，他采用的是不停的二分，还是这个例子，CART分类树会考虑把A分成{A1}和{A2,A3}{A1}和{A2,A3}, {A2}和{A1,A3}{A2}和{A1,A3}, {A3}和{A1,A2}{A3}和{A1,A2}三种情况，找到基尼系数最小的组合，比如{A2}和{A1,A3}{A2}和{A1,A3},然后建立二叉树节点，一个节点是A2对应的样本，另一个节点是{A1,A3}对应的节点。同时，由于这次没有把特征A的取值完全分开，后面我们还有机会在子节点继续选择到特征A来划分A1和A3。这和ID3或者C4.5不同，在ID3或者C4.5的一棵子树中，离散特征只会参与一次节点的建立。</p><h3 id="3-CART回归树建立"><a href="#3-CART回归树建立" class="headerlink" title="3.CART回归树建立"></a><strong>3.CART回归树建立</strong></h3><p>CART回归树和CART分类树的建立算法大部分是类似的，所以这里我们只讨论CART回归树和CART分类树的建立算法不同的地方。</p><p>  首先，我们要明白，什么是回归树，什么是分类树。两者的区别在于样本输出，如果样本输出是离散值，那么这是一颗分类树。如果果样本输出是连续值，那么那么这是一颗回归树。</p><p>  除了概念的不同，CART回归树和CART分类树的建立和预测的区别主要有下面两点：</p><p><strong>1.连续值的处理方法不同</strong></p><p><strong>2.决策树建立后做预测的方式不同</strong></p><h3 id="4-CART算法的剪枝"><a href="#4-CART算法的剪枝" class="headerlink" title="4.CART算法的剪枝"></a>4.CART算法的剪枝</h3><p><img src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/image-20220207124856003.png" alt="算法的剪枝"></p><h3 id="5-小结"><a href="#5-小结" class="headerlink" title="5.小结"></a>5.小结</h3><div class="table-container"><table><thead><tr><th style="text-align:center">算法</th><th style="text-align:center">支持模型</th><th style="text-align:center">树结构</th><th style="text-align:center">特征选择</th><th style="text-align:center">连续值处理</th><th style="text-align:center">缺失值处理</th><th style="text-align:center">剪枝</th></tr></thead><tbody><tr><td style="text-align:center">ID3</td><td style="text-align:center">分类</td><td style="text-align:center">多叉树</td><td style="text-align:center">信息增益</td><td style="text-align:center">不支持</td><td style="text-align:center">不支持</td><td style="text-align:center">不支持</td></tr><tr><td style="text-align:center">C4.5</td><td style="text-align:center">分类</td><td style="text-align:center">多叉树</td><td style="text-align:center">信息增益比</td><td style="text-align:center">支持</td><td style="text-align:center">支持</td><td style="text-align:center">支持</td></tr><tr><td style="text-align:center">CART</td><td style="text-align:center">分类、回归</td><td style="text-align:center">二叉树</td><td style="text-align:center">基尼系数、均方差</td><td style="text-align:center">支持</td><td style="text-align:center">支持</td><td style="text-align:center">支持</td></tr></tbody></table></div><p>　　　　</p><p>​                1）应该大家有注意到，无论是ID3, C4.5还是CART,在做特征选择的时候都是选择最优的一个特征来做分类决策，但是大多数，分类决策不应该是由某一个特征决定的，而是应该由一组特征决定的。这样决策得到的决策树更加准确。这个决策树叫做多变量决策树(multi-variate decision tree)。在选择最优特征的时候，多变量决策树不是选择某一个最优特征，而是选择最优的一个特征线性组合来做决策。这个算法的代表是OC1</p><p>　　　　2）如果样本发生一点点的改动，就会导致树结构的剧烈改变。这个可以通过集成学习里面的随机森林之类的方法解决。　　　</p><p>首先我们看看决策树算法的优点：</p><p>　　　　1）简单直观，生成的决策树很直观。</p><p>　　　　2）基本不需要预处理，不需要提前归一化，处理缺失值。</p><p>　　　　3）使用决策树预测的代价是O(log2m)O(log2m)。 m为样本数。</p><p>　　　　4）既可以处理离散值也可以处理连续值。很多算法只是专注于离散值或者连续值。</p><p>　　　　5）可以处理多维度输出的分类问题。</p><p>　　　　6）相比于神经网络之类的黑盒分类模型，决策树在逻辑上可以得到很好的解释</p><p>　　　　7）可以交叉验证的剪枝来选择模型，从而提高泛化能力。</p><p>　　　　8） 对于异常点的容错能力好，健壮性高。</p><p>我们再看看决策树算法的缺点:</p><p>　　　　1）决策树算法非常容易过拟合，导致泛化能力不强。可以通过设置节点最少样本数量和限制决策树深度来改进。</p><p>　　　　2）决策树会因为样本发生一点点的改动，就会导致树结构的剧烈改变。这个可以通过集成学习之类的方法解决。</p><p>　　　　3）寻找最优的决策树是一个NP难的问题，我们一般是通过启发式方法，容易陷入局部最优。可以通过集成学习之类的方法来改善。</p><p>　　　　4）有些比较复杂的关系，决策树很难学习，比如异或。这个就没有办法了，一般这种关系可以换神经网络分类方法来解决。</p><p>　　　　5）如果某些特征的样本比例过大，生成决策树容易偏向于这些特征。这个可以通过调节样本权重来改善。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+          <category> 李航统计学习方法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>决策树(1)</title>
+      <link href="/2022/02/05/2.5%E5%86%B3%E7%AD%96%E6%A0%91(1)/"/>
+      <url>/2022/02/05/2.5%E5%86%B3%E7%AD%96%E6%A0%91(1)/</url>
+      
+        <content type="html"><![CDATA[<h2 id="决策树概述"><a href="#决策树概述" class="headerlink" title="决策树概述"></a>决策树概述</h2><ul><li><p>是一种用于<strong>分类</strong>和<strong>回归</strong>的方法</p></li><li><p>通常包含三个步骤：<strong>特征选择</strong>、<strong>决策树生成</strong>和<strong>决策树修剪</strong></p></li></ul><p>Q1.分类和回归的区别？</p><div class="table-container"><table><thead><tr><th style="text-align:center">属性</th><th style="text-align:center">分类</th><th style="text-align:center">回归</th></tr></thead><tbody><tr><td style="text-align:center">输出类型</td><td style="text-align:center">离散数据</td><td style="text-align:center">连续数据</td></tr><tr><td style="text-align:center">评估指标</td><td style="text-align:center">监督分类一般<strong>使用正确率</strong>作为指标</td><td style="text-align:center"><strong>决定系数R方</strong></td></tr></tbody></table></div><h2 id="决策树算法"><a href="#决策树算法" class="headerlink" title="决策树算法"></a>决策树算法</h2><ul><li>通常包括三种算法ID3，C4.5，CART，在<strong>sklearn中采用优化了的CART</strong>算法来作为决策树实现</li></ul><h3 id="1-ID3算法："><a href="#1-ID3算法：" class="headerlink" title="1.ID3算法："></a>1.<strong>ID3算法</strong>：</h3><p>  作为一个码农经常会不停的敲if, else if, else,其实就已经在用到决策树的思想了。有这么多条件，用哪个条件特征先做if，哪个条件特征后做if比较优呢？怎么准确的定量选择这个标准就是决策树机器学习算法的关键了。昆兰找到了用<strong>信息论中的熵</strong>来度量决策树的决策选择过程，这个算法叫做ID3。</p><p><strong>信息论中熵的概念：</strong>熵度量了事物的<strong>不确定性</strong>，越不确定的事物，它的熵就越大。具体的，随机变量X的熵的表达式如下：</p><script type="math/tex; mode=display">H\left( X \right) =-\underset{i=1}{\overset{n}{\varSigma}}p_i\log p_i</script><p>  其中n代表X的n种不同的离散取值。而$$<br>p_i</p><script type="math/tex; mode=display">代表了X取值为i的概率，log为以2或者e为底的对数。举个例子，比如X有2个可能的取值，而这两个取值各为1/2时X的熵最大，此时X具有最大的不确定性。值为。</script><p>H\left( X \right) =-\left( \frac{1}{2}\log \frac{1}{2}+\frac{1}{2}\log \frac{1}{2} \right) </p><script type="math/tex; mode=display">，如果一个值概率大于1/2，另一个值概率小于1/2，则不确定性减少，对应的熵也会减少。又可以得到条件熵的表达式H(X|Y)，条件熵类似于条件概率,它度量了我们的X在知道Y以后剩下的不确定性。表达式如下：</script><p>H\left( X|Y \right) =\underset{j=1}{\overset{n}{\varSigma}}p\left( y_j \right) H\left( X|y_j \right)</p><script type="math/tex; mode=display">  我们刚才提到H(X)度量了X的不确定性，条件熵H(X|Y)度量了我们在知道Y以后X剩下的不确定性，那么H(X)-H(X|Y)呢？从上面的描述大家可以看出，它度量了X在知道Y以后不确定性减少程度，这个度量在信息论中称为互信息，记为I(X,Y)。在决策树ID3算法中叫做信息增益。ID3算法就是用信息增益来判断当前节点应该用什么特征来构建决策树。**信息增益大，则越适合用来分类。**### 2.**算法步骤：**  上面提到ID3算法就是用信息增益大小来判断当前节点应该用什么特征来构建决策树，用计算出的信息增益最大的特征来建立决策树的当前节点。这里我们举一个信息增益计算的具体的例子。比如我们有15个样本D，输出为0或者1。其中有9个输出为1， 6个输出为0。 样本中有个特征A，取值为A1，A2和A3。在取值为A1的样本的输出中，有3个输出为1， 2个输出为0，取值为A2的样本输出中,2个输出为1,3个输出为0， 在取值为A3的样本中，4个输出为1，1个输出为0，样本D在特征下的条件熵为：</script><p>H\left( D|A \right) =\frac{5}{15}H\left( D1 \right) +\frac{5}{15}H\left( D2 \right) +\frac{5}{15}H\left( D3 \right)</p><p>$$</p><p>对应的信息增益为 I(D,A)=H(D)−H(D|A)=0.083I(D,A)=H(D)−H(D|A)=0.083　　　　　　　　　　　　</p><p><strong>下面我们看看具体算法过程大概是怎么样的。</strong></p><p>输入的是m个样本，样本输出集合为D，每个样本有n个离散特征，特征集合即为A，输出为决策树T。</p><p>算法的过程为：</p><p>　　　　1)初始化信息增益的阈值ϵ</p><p>　　　　2）判断样本是否为同一类输出DiDi，如果是则返回单节点树T。标记类别为Di</p><p>   　　　　3) 判断特征是否为空，如果是则返回单节点树T，标记类别为样本中输出类别D实例数最多的类别</p><p>　　　　4）计算A中的各个特征（一共n个）对输出D的信息增益，选择信息增益最大的特征Ag</p><p>   　　　　5) 如果AgAg的信息增益小于阈值ϵ，则返回单节点树T，标记类别为样本中输出类别D实例数最多的类别</p><p>　　　　6）否则，按特征Ag的不同取值Agi将对应的样本输出D分成不同的类别Di。每个类别产生一个子节点。对应特征值为Agi，返回增加了节点的数T</p><p>　　　　7）对于所有的子节点，令D=Di,A=A−{Ag}递归调用2-6步，得到子树Ti并返回</p><h3 id="3-算法缺陷"><a href="#3-算法缺陷" class="headerlink" title="3.算法缺陷"></a>3.算法缺陷</h3><p>  ID3算法虽然提出了新思路，但是还是有很多值得改进的地方。　　</p><p>   　　　　1. ID3没有考虑连续特征，比如长度，密度都是连续值，无法在ID3运用。这大大限制了ID3的用途。<br>   　　　　2. ID3采用信息增益大的特征优先建立决策树的节点。很快就被人发现，在相同条件下，取值比较多的特征比取值少的特征信息增大。比如一个变量有2个值，各为1/2，另一个变量为3个值，各为1/3，其实他们都是完全不确定的变量，但是取3个值的比取2个值的信息增益大。<br>   　　　　3. ID3算法对于缺失值的情况没有做考虑。</p><ol><li>没有考虑过拟合的问题。</li></ol><p>基于上述不足，对ID3算法做了改进，这就是C4.5算法</p><h3 id="4-算法改进-C4-5算法"><a href="#4-算法改进-C4-5算法" class="headerlink" title="4.算法改进(C4.5算法)"></a>4.算法改进(C4.5算法)</h3><p>  对于第一个问题，不能处理连续特征， C4.5的思路是将连续的特征离散化。比如m个样本的连续特征A有m个，从小到大排列为a1,a2,…,am,则C4.5取相邻两样本值的平均数，一共取得m-1个划分点，其中第i个划分点Ti表示Ti表示Ti=ai+ai+12Ti=ai+ai+12。对于这m-1个点，分别计算以该点作为二元分类点时的信息增益。选择信息增益最大的点作为该连续特征的二元离散分类点。比如取到的增益最大的点为atat,则小于atat的值为类别1，大于atat的值为类别2，这样我们就做到了连续特征的离散化。要注意的是，与离散属性不同的是，如果当前节点为连续属性，则该属性后面还可以参与子节点的产生选择过程。</p><p>  对于第二个问题，信息增益作为标准容易偏向于取值较多的特征的问题。我们引入一个信息增益比的变量IR(X,Y)IR(X,Y)，它是信息增益和特征熵的比值。</p><p>  对于第三个缺失值处理的问题，主要需要解决的是两个问题，一是在样本某些特征缺失的情况下选择划分的属性，二是选定了划分属性，对于在该属性上缺失特征的样本的处理。</p><p>  对于第一个子问题，对于某一个有缺失特征值的特征A。C4.5的思路是将数据分成两部分，对每个样本设置一个权重（初始可以都为1），然后划分数据，一部分是有特征值A的数据D1，另一部分是没有特征A的数据D2. 然后对于没有缺失特征A的数据集D1来和对应的A特征的各个特征值一起计算加权重后的信息增益比，最后乘上一个系数，这个系数是无特征A缺失的样本加权后所占加权总样本的比例。</p><p>  对于第二个子问题，可以将缺失特征的样本同时划分入所有的子节点，不过将该样本的权重按各个子节点样本的数量比例来分配。比如缺失特征A的样本a之前权重为1，特征A有3个特征值A1,A2,A3。 3个特征值对应的无缺失A特征的样本个数为2,3,4.则a同时划分入A1，A2，A3。对应权重调节为2/9,3/9, 4/9。</p><p>对于第4个问题，C4.5引入了正则化系数进行初步的剪枝。</p><p>除了上面的4点，C4.5和ID的思路区别不大。</p><p>　　　　</p><h3 id="5-决策树C4-5算法的不足与思考"><a href="#5-决策树C4-5算法的不足与思考" class="headerlink" title="5. 决策树C4.5算法的不足与思考"></a>5. 决策树C4.5算法的不足与思考</h3><p>C4.5虽然改进或者改善了ID3算法的几个主要的问题，仍然有优化的空间。</p><p>　　　　1.由于决策树算法非常容易过拟合，因此对于生成的决策树必须要进行剪枝。剪枝的算法有非常多，C4.5的剪枝方法有优化的空间。思路主要是两种，一种是预剪枝，即在生成决策树的时候就决定是否剪枝。另一个是后剪枝，即先生成决策树，再通过交叉验证来剪枝。后面在下篇讲CART树的时候我们会专门讲决策树的减枝思路，主要采用的是后剪枝加上交叉验证选择最合适的决策树。</p><p>　　　　2.C4.5生成的是多叉树，即一个父节点可以有多个节点。很多时候，在计算机中二叉树模型会比多叉树运算效率高。如果采用二叉树，可以提高效率。</p><p>　　　　3.C4.5只能用于分类，如果能将决策树用于回归的话可以扩大它的使用范围。</p><p>　　　　4.C4.5由于使用了熵模型，里面有大量的耗时的对数运算,如果是连续值还有大量的排序运算。如果能够加以模型简化可以减少运算强度但又不牺牲太多准确性的话，那就更好了。</p><p> 　这4个问题在CART树里面部分加以了改进。所以目前如果不考虑集成学习话，在普通的决策树算法里，CART算法算是比较优的算法了。<strong>scikit-learn的决策树使用的也是CART算法。</strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+          <category> 李航统计学习方法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>已安装某个包vscode无法调用</title>
       <link href="/2022/02/01/1.31/"/>
       <url>/2022/02/01/1.31/</url>

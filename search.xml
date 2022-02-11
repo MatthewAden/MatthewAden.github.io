@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>逻辑回归</title>
+      <link href="/2022/02/10/2.10%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"/>
+      <url>/2022/02/10/2.10%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/</url>
+      
+        <content type="html"><![CDATA[<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>逻辑回归是一种<strong>分类</strong>模型，由条件概率分布P(Y|X)表示,形式为<strong>参数化</strong>(待会参数要算出)的逻辑斯蒂分布，它与最大熵模型一样一样都是对数线性模型，输出某个类的对数几率与输入实例的线性函数</p><h2 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h2><p><img src="https://cdn.jsdelivr.net/gh/MatthewAden/blog.img/image-20220210231327561.png" alt="推导过程" style="zoom: 25%;" /></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+          <category> 李航统计学习方法 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器学习 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>决策树(2)</title>
       <link href="/2022/02/07/2.7%E5%86%B3%E7%AD%96%E6%A0%91(2)/"/>
       <url>/2022/02/07/2.7%E5%86%B3%E7%AD%96%E6%A0%91(2)/</url>

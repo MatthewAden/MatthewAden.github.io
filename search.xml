@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>指针(1)</title>
+      <link href="/2022/03/01/3.7%E6%8C%87%E9%92%88/"/>
+      <url>/2022/03/01/3.7%E6%8C%87%E9%92%88/</url>
+      
+        <content type="html"><![CDATA[<h2 id="直接’-’赋值"><a href="#直接’-’赋值" class="headerlink" title="直接’=’赋值"></a>直接’=’赋值</h2><pre class="language-c" data-language="c"><code class="language-c">int a &#x3D; 2;printf(&quot;a &#x3D; %d&quot;, a);</code></pre><p>两个操作：</p><p><strong>(1) int a</strong>;</p><p>在栈中定义了一个<strong>变量a</strong>，并且在内存中开辟了一个int类型大小的空间， 即4个字节 ，然后让a指向这篇空间，也就是这片空间，计算机分配给了a， a以后就有了一片属于自己的空间；</p><p><strong>(2) a = 2;</strong></p><p>在a的自己的那片空间，里面存放数值2 ，把2<strong>转换成二进制</strong>，存到a的4个字节(<strong>32位二进制</strong>)的空间里</p><h2 id="输入函数赋值"><a href="#输入函数赋值" class="headerlink" title="输入函数赋值"></a>输入函数赋值</h2><pre class="language-c" data-language="c"><code class="language-c">scanf(&quot;%d&quot;,&amp;a);</code></pre><p><strong>&amp;</strong>——获得变量的地址，操作数必须是变量</p><p>用户输入了一个<strong>int类型</strong>的数值，比如输入2，然后&amp;a，先找到a的那片地址空间，最后把2转成二进制，存入a的那片地址空间，即完成了对a的赋值，也就是在a的那片4字节的空间填入了二进制的2；</p><h2 id="指针类型-int-的定义与存储过程"><a href="#指针类型-int-的定义与存储过程" class="headerlink" title="指针类型(int*)的定义与存储过程"></a><strong>指针类型(int*)的定义与存储过程</strong></h2><ul><li><p>p = &amp;a 意思是p保存了a的地址，即p指向a</p></li><li><p>```c<br>int a,<em>p=&a; //注意这句语句是正确的<br>//该语句貌似把 &amp;a 赋给了 </em>p，而实际上 p 前的 * 仅是定义指针变量 p 的标识，仍然是把 &amp;a 赋给了 p，故是正确的赋值语句。</p><pre class="language-none"><code class="language-none">&#96;&#96;&#96;cint *p;&#x2F;&#x2F;定义了一个整型指针变量 p，该指针变量只能指向基类型为 int 的整型变量，即只能保存整型变量的地址，也就是p里面所保存的地址所对应的值是int型&#x2F;&#x2F;*号标识该变量为指针类型，当定义多个指针变量时，在每个指针变量名前面均需要加一个 *，不能省略，否则为非指针变量。例如：int *pa,*pb;  &#x2F;&#x2F;表示定义了两个指针变量 pa、pbint *pa,pb;   &#x2F;&#x2F;则仅有 pa 是指针变量，而pb是整型变量。int *pi,a,b; &#x2F;&#x2F;等价于inta,b, *pi;</code></pre></li></ul><p><strong>该指针量中只能保存该基类型变量的地址。</strong></p><pre class="language-c" data-language="c"><code class="language-c">int a,b,*pa,*pb;char *pc,c;pa&#x3D;&amp;a;&#x2F;&#x2F;正确。pa基类型为int，a为int型变量，类型一致pb&#x3D;&amp;c;&#x2F;&#x2F;错误。pb基类型为int，c为char型变量，类型不一致pc&#x3D;&amp;c;&#x2F;&#x2F;正确。pc基类型为char,c为char型变量，类型一致*pa&#x3D;&amp;a;&#x2F;&#x2F;错误。指针变量是pa而非*pa</code></pre><h2 id="指针变量的引用"><a href="#指针变量的引用" class="headerlink" title="指针变量的引用"></a>指针变量的引用</h2><p>访问内存空间，一般分为<strong>直接访问</strong>和<strong>间接访问</strong></p><ul><li><p>如果知道内存空间的<strong>名字</strong>，可通过名字访问该空间，称为直接访问</p></li><li><p>如果知道内存空间的<strong>地址</strong>，也可以通过该地址间接访问该空间。</p></li></ul><p>在 C 语言中，可以使用间接访问符（取内容访问符）<strong>*</strong>(间接访问符)来访问指针所指向的空间，在该地址 p 前面加上间接访问符 <em>，即代表该地址对应的内存单元。而变量 a 也对应该内存单元，故 </em>p 就相当于 a。</p><pre class="language-c" data-language="c"><code class="language-c">int *p,a&#x3D;3;p&#x3D;&amp;a; &#x2F;&#x2F;p中保存变量a对应内存单元的地址printf(&quot;a&#x3D;%d\n&quot;,a); &#x2F;&#x2F;通过名字，直接访问变量a空间（读取)printf(&quot;a&#x3D;%d\n&quot;,*p); &#x2F;&#x2F;通过地址，间接访问变量a空间（读取）*p&#x3D;6;&#x2F;&#x2F;等价于a&#x3D;6;间接访问a对应空间（存）</code></pre><h3 id="野指针"><a href="#野指针" class="headerlink" title="野指针"></a>野指针</h3><p>把没有合法指向的指针称为“野”指针。因为“野”指针随机指向一块空间，该空间中存储的可能是其他程序的数据甚至是系统数据，故不能对“野”指针所指向的空间进行存取操作，<strong>定义了指针变量，不能还没有指向任何变量就开始使用指针</strong></p><pre class="language-c" data-language="c"><code class="language-c">int *pi,a; &#x2F;&#x2F;pi未初始化，无合法指向，为“野”指针*pi&#x3D;3; &#x2F;&#x2F;运行时错误！不能对”野”指针指向的空间做存入操作。该语句试图把 3 存入“野”指针pi所指的随机空间中，会产生运行时错误。a&#x3D;*pi; &#x2F;&#x2F;运行时错误！不能对”野”指针指向的空间取操作。该语句试图从“野”指针pi所指的空间中取出数据，然后赋给变量a同样会产生运行时错误。&#x2F;&#x2F;正确做法pi&#x3D;&amp;a;&#x2F;&#x2F;让pi有合法的指向，pi指向a变量对应的空间*pi&#x3D;3;&#x2F;&#x2F;把3间接存入pi所指向的变量a对应的空间</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> C/C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C/C++ </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>逻辑回归</title>
       <link href="/2022/02/10/2.10%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"/>
       <url>/2022/02/10/2.10%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/</url>
